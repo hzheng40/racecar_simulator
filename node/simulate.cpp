@@ -239,16 +239,19 @@ class RacecarSimulator {
       }
     }
 
-    void pose_callback(const geometry_msgs::Pose & msg) {
-      pose.x = msg.position.x;
-      pose.y = msg.position.y;
-      geometry_msgs::Quaternion q = msg.orientation;
+    void pose_callback(const geometry_msgs::PoseStamped & msg) {
+      pose.x = msg.pose.position.x;
+      pose.y = msg.pose.position.y;
+      geometry_msgs::Quaternion q = msg.pose.orientation;
       tf2::Quaternion quat(q.x, q.y, q.z, q.w);
       pose.theta = tf2::impl::getYaw(quat);
     }
 
     void pose_rviz_callback(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr & msg) {
-      pose_callback(msg -> pose.pose);
+      geometry_msgs::PoseStamped temp_pose;
+      temp_pose.header = msg->header;
+      temp_pose.pose = msg->pose.pose;
+      pose_callback(temp_pose);
     }
 
     void drive_callback(const ackermann_msgs::AckermannDriveStamped & msg) {

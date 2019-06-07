@@ -7,7 +7,7 @@ max_speed: 4. # meters/second
 max_steering_angle: 0.34 # radians
 
 # The rate at which the pose and the lidar publish
-update_pose_rate: 0.02
+update_pose_rate: 0.001
 
 # Lidar simulation parameters
 scan_beams: 1080
